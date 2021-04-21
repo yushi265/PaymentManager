@@ -26,5 +26,25 @@ class DatabaseSeeder extends Seeder
             'email' => 'asuka@gmail.com',
             'password' => Hash::make('12345678'),
         ]);
+
+        DB::table('events')->insert([
+            'name' => 'シャンゴ',
+        ]);
+
+        DB::table('events')->insert([
+            'name' => 'はらっぱ',
+        ]);
+
+        DB::table('payments')->insert([
+            'event_id' => 1,
+            'payer_id' => 1,
+            'price' => 1000,
+        ]);
+
+        DB::table('payments')->insert([
+            'event_id' => 2,
+            'payer_id' => 2,
+            'price' => 2000,
+        ]);
     }
 }
