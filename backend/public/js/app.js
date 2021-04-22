@@ -1868,17 +1868,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     initialPayments: {
       type: Array,
-      required: true
+      "default": function _default() {}
+    },
+    initialMembers: {
+      type: Array,
+      "default": function _default() {}
     }
   },
   data: function data() {
     return {
-      payments: this.initialPayments
+      payments: this.initialPayments,
+      members: this.initialMembers,
+      message: ''
     };
+  },
+  computed: {
+    totalPrice: function totalPrice() {
+      var total = 0;
+      this.payments.forEach(function (element) {
+        total += element.price;
+      });
+      return total;
+    }
+  },
+  methods: {
+    totalPayment: function totalPayment(id) {
+      var member = this.members.find(function (member) {
+        return member.id === id;
+      });
+      console.log(member);
+      var totalPayment = 0;
+      member.payments.forEach(function (payment) {
+        totalPayment += payment.price;
+      });
+      return totalPayment;
+    }
   }
 });
 
@@ -6431,7 +6461,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.total-price[data-v-4f61e082]{\n    text-align: right;\n}\n.card[data-v-4f61e082] {\n  background-color: #f11e766e;\n}\n.event-name[data-v-4f61e082]{\n    /* font-weight: bold; */\n    font-size: 17px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.total-price[data-v-4f61e082] {\n  text-align: right;\n}\n.card[data-v-4f61e082] {\n  background-color: #f11e766e;\n}\n.event-name[data-v-4f61e082] {\n  /* font-weight: bold; */\n  font-size: 17px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37582,8 +37612,6 @@ var render = function() {
     [
       _c("p", { staticClass: "ml-2" }, [_vm._v("今日")]),
       _vm._v(" "),
-      _c("p", { staticClass: "total-price" }, [_vm._v("合計：3000")]),
-      _vm._v(" "),
       _vm._l(_vm.payments, function(payment) {
         return _c("div", { staticClass: "card mb-1" }, [
           _c("div", { staticClass: "card-body pt-1 pb-1" }, [
@@ -37608,7 +37636,23 @@ var render = function() {
             ])
           ])
         ])
-      })
+      }),
+      _vm._v(" "),
+      _vm._l(_vm.members, function(member) {
+        return _c("p", { staticClass: "total-price mb-0" }, [
+          _vm._v(
+            "\n      " +
+              _vm._s(member.name) +
+              "：" +
+              _vm._s(_vm.totalPayment(member.id).toLocaleString()) +
+              "円\n  "
+          )
+        ])
+      }),
+      _vm._v(" "),
+      _c("p", { staticClass: "total-price" }, [
+        _vm._v("合計：" + _vm._s(_vm.totalPrice.toLocaleString()) + "円")
+      ])
     ],
     2
   )

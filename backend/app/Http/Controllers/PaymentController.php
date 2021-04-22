@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -15,8 +16,12 @@ class PaymentController extends Controller
     public function index()
     {
         $payments = Payment::with(['event', 'payer'])->orderBy('created_at', 'desc')->get();
+        $members = User::with(['payments'])->get();
 
-        return view('payments.index', ['payments' => $payments]);
+        return view('payments.index', [
+            'payments' => $payments,
+            'members' => $members,
+        ]);
     }
 
     /**
