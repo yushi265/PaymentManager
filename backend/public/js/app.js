@@ -1870,6 +1870,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     initialPayments: {
@@ -1885,29 +1891,44 @@ __webpack_require__.r(__webpack_exports__);
     return {
       payments: this.initialPayments,
       members: this.initialMembers,
-      message: ''
+      totalPrice: 0,
+      avaragePrice: 0
     };
   },
-  computed: {
-    totalPrice: function totalPrice() {
-      var total = 0;
-      this.payments.forEach(function (element) {
-        total += element.price;
+  created: function created() {
+    var _this = this;
+
+    // 支払総額を計算
+    var total = 0;
+    this.payments.forEach(function (element) {
+      total += element.price;
+    });
+    this.totalPrice = total; // メンバーの支払総額を計算
+
+    var memberTotalPayment = 0;
+    this.members.forEach(function (member) {
+      member.payments.forEach(function (payment) {
+        memberTotalPayment += payment.price;
       });
-      return total;
-    }
+      member.totalPayment = memberTotalPayment;
+      memberTotalPayment = 0;
+    }); // 支払い平均を計算
+
+    this.avaragePrice = this.totalPrice / this.members.length; // メンバーの不足額を計算
+
+    this.members.forEach(function (member) {
+      member.shortage = _this.avaragePrice - member.totalPayment;
+    });
   },
   methods: {
-    totalPayment: function totalPayment(id) {
-      var member = this.members.find(function (member) {
-        return member.id === id;
-      });
-      console.log(member);
-      var totalPayment = 0;
-      member.payments.forEach(function (payment) {
-        totalPayment += payment.price;
-      });
-      return totalPayment;
+    judgement: function judgement(member) {
+      if (member.shortage < 0) {
+        return;
+      } else if (member.shortage > 0) {
+        return member.name + 'が' + member.shortage.toLocaleString() + '円はらってね！！';
+      } else {
+        return 'ピッタリ！！';
+      }
     }
   }
 });
@@ -6461,7 +6482,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.total-price[data-v-4f61e082] {\n  text-align: right;\n}\n.card[data-v-4f61e082] {\n  background-color: #f11e766e;\n}\n.event-name[data-v-4f61e082] {\n  /* font-weight: bold; */\n  font-size: 17px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.total-price[data-v-4f61e082] {\n  text-align: right;\n}\n.card[data-v-4f61e082] {\n  background-color: #f11e766e;\n}\n.event-name[data-v-4f61e082] {\n  /* font-weight: bold; */\n  font-size: 17px;\n}\n.center[data-v-4f61e082] {\n    text-align: center;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37616,7 +37637,7 @@ var render = function() {
         return _c("div", { staticClass: "card mb-1" }, [
           _c("div", { staticClass: "card-body pt-1 pb-1" }, [
             _c("div", { staticClass: "event-name" }, [
-              _vm._v("\n        " + _vm._s(payment.event.name) + "\n      ")
+              _vm._v("\n          " + _vm._s(payment.event.name) + "\n        ")
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
@@ -37627,9 +37648,9 @@ var render = function() {
               _c("div", { staticClass: "col" }, [
                 _c("span", { staticClass: "badge bg-light text-dark p-2" }, [
                   _vm._v(
-                    "\n            " +
+                    "\n              " +
                       _vm._s(payment.payer.name) +
-                      "\n          "
+                      "\n            "
                   )
                 ])
               ])
@@ -37644,14 +37665,31 @@ var render = function() {
             "\n      " +
               _vm._s(member.name) +
               "：" +
-              _vm._s(_vm.totalPayment(member.id).toLocaleString()) +
-              "円\n  "
+              _vm._s(member.totalPayment.toLocaleString()) +
+              "円\n    "
           )
         ])
       }),
       _vm._v(" "),
-      _c("p", { staticClass: "total-price" }, [
+      _c("p", { staticClass: "total-price mb-0" }, [
         _vm._v("合計：" + _vm._s(_vm.totalPrice.toLocaleString()) + "円")
+      ]),
+      _vm._v(" "),
+      _c("p", { staticClass: "total-price mb-0" }, [
+        _vm._v("平均：" + _vm._s(_vm.avaragePrice.toLocaleString()) + "円")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card" }, [
+        _c(
+          "div",
+          { staticClass: "card-body" },
+          _vm._l(_vm.members, function(member) {
+            return _c("h5", { staticClass: "card-title center" }, [
+              _vm._v(_vm._s(_vm.judgement(member)))
+            ])
+          }),
+          0
+        )
       ])
     ],
     2

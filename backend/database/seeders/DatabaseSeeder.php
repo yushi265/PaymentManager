@@ -46,5 +46,17 @@ class DatabaseSeeder extends Seeder
             'payer_id' => 2,
             'price' => 2000,
         ]);
+
+        DB::table('payments')->insert([
+            'event_id' => 1,
+            'payer_id' => 2,
+            'price' => 10000,
+        ]);
+
+        DB::table('payments')->insert([
+            'event_id' => 2,
+            'payer_id' => 1,
+            'price' => 2000,
+        ]);
     }
 }

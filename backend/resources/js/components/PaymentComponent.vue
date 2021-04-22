@@ -17,9 +17,15 @@
       </div>
     </div>
     <p class="total-price mb-0" v-for="member in members">
-        {{ member.name }}：{{ totalPayment(member.id).toLocaleString() }}円
+      {{ member.name }}：{{ member.totalPayment.toLocaleString() }}円
     </p>
-    <p class="total-price">合計：{{ totalPrice.toLocaleString() }}円</p>
+    <p class="total-price mb-0">合計：{{ totalPrice.toLocaleString() }}円</p>
+    <p class="total-price mb-0">平均：{{avaragePrice.toLocaleString()}}円</p>
+  <div class="card">
+  <div class="card-body">
+    <h5 class="card-title center" v-for="member in members">{{judgement(member)}}</h5>
+  </div>
+</div>
   </div>
 </template>
 
@@ -31,37 +37,54 @@ export default {
       default: () => {},
     },
     initialMembers: {
-        type: Array,
-        default: () => {},
-    }
+      type: Array,
+      default: () => {},
+    },
   },
   data: function () {
     return {
       payments: this.initialPayments,
       members: this.initialMembers,
-      message: '',
+      totalPrice: 0,
+      avaragePrice: 0,
     };
   },
-  computed: {
-    totalPrice: function () {
-      let total = 0;
-      this.payments.forEach((element) => {
-        total += element.price;
+  created: function () {
+    // 支払総額を計算
+    let total = 0;
+    this.payments.forEach((element) => {
+      total += element.price;
+    });
+    this.totalPrice = total;
+
+    // メンバーの支払総額を計算
+    let memberTotalPayment = 0;
+    this.members.forEach((member) => {
+      member.payments.forEach((payment) => {
+        memberTotalPayment += payment.price;
       });
-      return total;
-    },
+      member.totalPayment = memberTotalPayment;
+      memberTotalPayment = 0;
+    });
+
+    // 支払い平均を計算
+    this.avaragePrice = this.totalPrice / this.members.length;
+
+    // メンバーの不足額を計算
+      this.members.forEach((member) => {
+    member.shortage = this.avaragePrice - member.totalPayment
+  });
   },
   methods: {
-      totalPayment: function(id) {
-          const member = this.members.find(member => member.id === id)
-          console.log(member)
-          let totalPayment = 0
-          member.payments.forEach(payment => {
-                totalPayment += payment.price
-            })
-
-            return totalPayment
-      },
+      judgement: function(member) {
+          if (member.shortage < 0) {
+              return
+          } else if (member.shortage > 0) {
+              return member.name + 'が' + member.shortage.toLocaleString() + '円はらってね！！'
+          } else {
+              return 'ピッタリ！！'
+          }
+      }
   }
 };
 </script>
@@ -77,5 +100,9 @@ export default {
 .event-name {
   /* font-weight: bold; */
   font-size: 17px;
+}
+
+.center {
+    text-align: center;
 }
 </style>
