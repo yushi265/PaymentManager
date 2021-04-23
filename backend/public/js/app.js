@@ -1845,6 +1845,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -1881,70 +1883,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     initialPayments: {
@@ -1954,6 +1893,10 @@ __webpack_require__.r(__webpack_exports__);
     initialMembers: {
       type: Array,
       "default": function _default() {}
+    },
+    endpoint: {
+      type: String,
+      required: true
     }
   },
   data: function data() {
@@ -6551,7 +6494,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.total-price[data-v-4f61e082] {\n  text-align: right;\n}\n.card[data-v-4f61e082] {\n  background-color: #f11e766e;\n}\n.event-name[data-v-4f61e082] {\n  /* font-weight: bold; */\n  font-size: 17px;\n}\n.center[data-v-4f61e082] {\n  text-align: center;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.bg-color[data-v-4f61e082] {\n    background-color: #f4f2908a;\n}\n.btn-color[data-v-4f61e082] {\n    background-color: #f11e766e;\n}\n.total-price[data-v-4f61e082] {\n  text-align: right;\n}\n.right[data-v-4f61e082] {\n    text-align: right;\n}\n.card[data-v-4f61e082] {\n  background-color: #f11e766e;\n}\n.event-name[data-v-4f61e082] {\n  /* font-weight: bold; */\n  font-size: 17px;\n}\n.center[data-v-4f61e082] {\n  text-align: center;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37700,25 +37643,10 @@ var render = function() {
     "div",
     { staticClass: "container" },
     [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary",
-          attrs: {
-            type: "button",
-            "data-mdb-toggle": "modal",
-            "data-mdb-target": "#exampleModal"
-          }
-        },
-        [_vm._v("\n    登録\n  ")]
-      ),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
       _c("p", { staticClass: "ml-2" }, [_vm._v("今日")]),
       _vm._v(" "),
       _vm._l(_vm.payments, function(payment) {
-        return _c("div", { staticClass: "card mb-1" }, [
+        return _c("div", { key: payment.id, staticClass: "card mb-1" }, [
           _c("div", { staticClass: "card-body pt-1 pb-1" }, [
             _c("div", { staticClass: "event-name" }, [
               _vm._v("\n        " + _vm._s(payment.event.name) + "\n      ")
@@ -37729,7 +37657,7 @@ var render = function() {
                 _vm._v("¥" + _vm._s(payment.price.toLocaleString()))
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col" }, [
+              _c("div", { staticClass: "col right" }, [
                 _c("span", { staticClass: "badge bg-light text-dark p-2" }, [
                   _vm._v(
                     "\n            " +
@@ -37744,7 +37672,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _vm._l(_vm.members, function(member) {
-        return _c("p", { staticClass: "total-price mb-0" }, [
+        return _c("p", { key: member.id, staticClass: "total-price mb-0" }, [
           _vm._v(
             "\n    " +
               _vm._s(member.name) +
@@ -37768,9 +37696,15 @@ var render = function() {
           "div",
           { staticClass: "card-body" },
           _vm._l(_vm.members, function(member) {
-            return _c("h5", { staticClass: "card-title center" }, [
-              _vm._v("\n        " + _vm._s(_vm.judgement(member)) + "\n      ")
-            ])
+            return _c(
+              "h5",
+              { key: member.id, staticClass: "card-title center" },
+              [
+                _vm._v(
+                  "\n        " + _vm._s(_vm.judgement(member)) + "\n      "
+                )
+              ]
+            )
           }),
           0
         )
@@ -37779,104 +37713,7 @@ var render = function() {
     2
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "exampleModal",
-          tabindex: "-1",
-          "aria-labelledby": "exampleModalLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c("div", { staticClass: "modal-dialog" }, [
-          _c("div", { staticClass: "modal-content" }, [
-            _c("div", { staticClass: "modal-header" }, [
-              _c(
-                "h5",
-                {
-                  staticClass: "modal-title",
-                  attrs: { id: "exampleModalLabel" }
-                },
-                [_vm._v("イベント作成")]
-              ),
-              _vm._v(" "),
-              _c("button", {
-                staticClass: "btn-close",
-                attrs: {
-                  type: "button",
-                  "data-mdb-dismiss": "modal",
-                  "aria-label": "Close"
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-body" }, [
-              _c("div", { staticClass: "input-group mb-3" }, [
-                _c("input", {
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "タイトル" }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "input-group mb-3" }, [
-                _c("input", {
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "金額" }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "input-group mb-3" }, [
-                _c(
-                  "select",
-                  {
-                    staticClass: "form-select",
-                    attrs: { "aria-label": "Default select example" }
-                  },
-                  [
-                    _c("option", { attrs: { selected: "" } }, [
-                      _vm._v("はらったひと")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "1" } }, [_vm._v("One")]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "2" } }, [_vm._v("Two")]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "3" } }, [_vm._v("Three")])
-                  ]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-footer" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-secondary",
-                  attrs: { type: "button", "data-mdb-dismiss": "modal" }
-                },
-                [_vm._v("\n          閉じる\n          ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                { staticClass: "btn btn-primary", attrs: { type: "button" } },
-                [_vm._v("登録")]
-              )
-            ])
-          ])
-        ])
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -42,7 +42,14 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // ddd($request);
+        Payment::create([
+            'event_id' => $request->event,
+            'payer_id' => $request->payer_id,
+            'price' => $request->price,
+        ]);
+
+        return 'OK!!';
     }
 
     /**
