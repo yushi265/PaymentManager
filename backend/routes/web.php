@@ -14,7 +14,7 @@ use App\Http\Controllers\PaymentController;
 |
 */
 
-Route::get('/', [PaymentController::class, 'index']);
+Route::get('/', [PaymentController::class, 'index'])->name('index');
 // require __DIR__.'/auth.php';
 
 Auth::routes();

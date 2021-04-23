@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Payment;
 use App\Models\User;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -42,14 +43,16 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        // ddd($request);
+        $event = Event::firstOrCreate(['name' => $request->title]);
+        $payer = User::where('id', $request->payer_id)->first();
+
         Payment::create([
-            'event_id' => $request->event,
-            'payer_id' => $request->payer_id,
+            'event_id' => $event->id,
+            'payer_id' => $payer->id,
             'price' => $request->price,
         ]);
 
-        return 'OK!!';
+        return redirect()->route('index');
     }
 
     /**
@@ -94,6 +97,11 @@ class PaymentController extends Controller
      */
     public function destroy(Payment $payment)
     {
-        //
+        $payment->delete();
+
+        $payments = Payment::with(['event', 'payer'])->orderBy('created_at', 'desc')->get();
+        $members = User::with(['payments'])->get();
+
+        return ['payments' => $payments, 'members' => $members];
     }
 }

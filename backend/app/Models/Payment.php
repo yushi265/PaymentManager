@@ -11,6 +11,8 @@ class Payment extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['event_id', 'payer_id', 'price'];
+
     public function event(): BelongsTo
     {
         return $this->belongsTo('App\Models\Event');
