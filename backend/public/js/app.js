@@ -1929,10 +1929,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       payments: this.initialPayments,
-      members: this.initialMembers //   totalPrice: 0,
-      //   avaragePrice: 0,
-
+      members: this.initialMembers
     };
+  },
+  created: function created() {
+    this.setMemberTotalPayment();
   },
   computed: {
     totalPrice: function totalPrice() {
@@ -1943,27 +1944,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return price;
     },
     avaragePrice: function avaragePrice() {
-      return this.totalPrice / this.members.length;
-    },
-    memberTotalPayment: function memberTotalPayment() {
-      var total = 0;
-      this.members.forEach(function (member) {
-        member.payments.forEach(function (payment) {
-          total += payment.price;
-        });
-        member.totalPayment = total;
-        total = 0;
-      });
-    },
-    memberShortage: function memberShortage() {
-      var _this = this;
-
-      this.members.forEach(function (member) {
-        member.shortage = _this.avaragePrice - member.totalPayment;
-      });
+      var price = Math.round(this.totalPrice / this.members.length);
+      return price;
     }
   },
   methods: {
+    setMemberTotalPayment: function setMemberTotalPayment() {
+      var _this = this;
+
+      var total = 0;
+      this.members.forEach(function (member) {
+        //   メンバーの総支払額をセット
+        member.payments.forEach(function (payment) {
+          total += payment.price;
+        });
+
+        _this.$set(member, "totalPayment", total);
+
+        total = 0; //   メンバーの支払い不足額をセット
+
+        member.shortage = _this.avaragePrice - member.totalPayment;
+
+        _this.$set(member, "shortage", _this.avaragePrice - member.totalPayment);
+      });
+    },
     judgement: function judgement(member) {
       if (member.shortage < 0) {
         return;
@@ -1988,8 +1992,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 2:
                 response = _context.sent;
                 _this2.payments = response.data.payments;
+                _this2.members = response.data.members;
 
-              case 4:
+                _this2.setMemberTotalPayment();
+
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -38504,7 +38511,7 @@ var render = function() {
             "\n    " +
               _vm._s(member.name) +
               "：" +
-              _vm._s(member.totalPayment) +
+              _vm._s(member.totalPayment.toLocaleString()) +
               "円\n  "
           )
         ])

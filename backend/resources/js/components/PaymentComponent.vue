@@ -25,7 +25,7 @@
       </div>
     </div>
     <p class="total-price mb-0" v-for="member in members" :key="member.id">
-      {{ member.name }}：{{ member.totalPayment }}円
+      {{ member.name }}：{{ member.totalPayment.toLocaleString() }}円
     </p>
     <p class="total-price mb-0">合計：{{ totalPrice.toLocaleString() }}円</p>
     <p class="total-price mb-0">平均：{{ avaragePrice.toLocaleString() }}円</p>
@@ -64,9 +64,10 @@ export default {
     return {
       payments: this.initialPayments,
       members: this.initialMembers,
-      //   totalPrice: 0,
-      //   avaragePrice: 0,
     };
+  },
+  created() {
+    this.setMemberTotalPayment()
   },
   computed: {
     totalPrice() {
@@ -77,26 +78,26 @@ export default {
       return price;
     },
     avaragePrice() {
-      return this.totalPrice / this.members.length;
-    },
-    memberTotalPayment() {
-      let total = 0;
-      this.members.forEach((member) => {
-        member.payments.forEach((payment) => {
-          total += payment.price;
-        });
-        member.totalPayment = total;
-        total = 0;
-      });
-    },
-    memberShortage() {
-      this.members.forEach((member) => {
-        member.shortage = this.avaragePrice - member.totalPayment;
-      });
+      let price = Math.round(this.totalPrice / this.members.length);
+      return price
     },
   },
   methods: {
-    judgement: function (member) {
+    setMemberTotalPayment() {
+      let total = 0;
+    this.members.forEach((member) => {
+      //   メンバーの総支払額をセット
+      member.payments.forEach((payment) => {
+        total += payment.price;
+      });
+      this.$set(member, "totalPayment", total);
+      total = 0;
+    //   メンバーの支払い不足額をセット
+    member.shortage = this.avaragePrice - member.totalPayment;
+    this.$set(member, "shortage", this.avaragePrice - member.totalPayment);
+    });
+    },
+    judgement(member) {
       if (member.shortage < 0) {
         return;
       } else if (member.shortage > 0) {
@@ -116,6 +117,9 @@ export default {
       );
 
       this.payments = response.data.payments;
+      this.members = response.data.members;
+
+    this.setMemberTotalPayment()
     },
   },
 };
