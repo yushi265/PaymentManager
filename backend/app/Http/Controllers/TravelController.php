@@ -97,6 +97,8 @@ class TravelController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Travel::where('id', $id)->delete();
+
+        return redirect()->back();
     }
 }

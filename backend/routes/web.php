@@ -20,5 +20,5 @@ Route::get('/', [TravelController::class, 'index'])->name('index');
 
 Auth::routes();
 
-Route::resource('/travels', TravelController::class)->except(['index']);
-Route::resource('/payments', PaymentController::class)->except(['index']);
+Route::resource('/travels', TravelController::class)->middleware('auth')->except(['index']);
+Route::resource('/payments', PaymentController::class)->middleware('auth')->except(['index']);
