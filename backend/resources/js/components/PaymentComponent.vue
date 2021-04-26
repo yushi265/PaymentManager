@@ -1,6 +1,16 @@
 <template>
   <div>
-    <p class="ml-2">今日</p>
+    <div class="card mb-5">
+      <div class="card-body">
+        <h5
+          class="card-title center"
+          v-for="member in members"
+          :key="member.id"
+        >
+          {{ judgement(member) }}
+        </h5>
+      </div>
+    </div>
     <div class="card mb-1" v-for="payment in payments" :key="payment.id">
       <div class="card-body pt-1 pb-1">
         <button
@@ -29,17 +39,7 @@
     </p>
     <p class="total-price mb-0">合計：{{ totalPrice.toLocaleString() }}円</p>
     <p class="total-price mb-0">平均：{{ avaragePrice.toLocaleString() }}円</p>
-    <div class="card">
-      <div class="card-body">
-        <h5
-          class="card-title center"
-          v-for="member in members"
-          :key="member.id"
-        >
-          {{ judgement(member) }}
-        </h5>
-      </div>
-    </div>
+
   </div>
 </template>
 
@@ -55,9 +55,6 @@ export default {
     initialMembers: {
       type: Array,
       default: () => {},
-    },
-    endpoint: {
-      type: String,
     },
   },
   data: function () {

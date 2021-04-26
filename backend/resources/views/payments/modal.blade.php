@@ -1,5 +1,5 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn w-100 mb-3 pt-3 pb-3" data-mdb-toggle="modal" data-mdb-target="#exampleModal" style="background-color:#f11e766e;">
+<button type="button" class="btn w-100 mb-4 pt-3 pb-3" data-mdb-toggle="modal" data-mdb-target="#exampleModal" style="background-color:#f11e766e;">
     追加
 </button>
 
@@ -13,6 +13,7 @@
             </div>
             <form action="{{ route('payments.store') }}" method="post">
                 @csrf
+                <input type="hidden" name="travel_id" value="{{ $travel_id }}">
                 <div class="modal-body">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="title" placeholder="イベント名" required>

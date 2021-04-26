@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TravelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,10 @@ use App\Http\Controllers\PaymentController;
 |
 */
 
-Route::get('/', [PaymentController::class, 'index'])->name('index');
+Route::get('/', [TravelController::class, 'index'])->name('index');
 // require __DIR__.'/auth.php';
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('/travels', TravelController::class)->except(['index']);
 Route::resource('/payments', PaymentController::class)->except(['index']);

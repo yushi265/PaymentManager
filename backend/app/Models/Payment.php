@@ -11,7 +11,7 @@ class Payment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['event_id', 'payer_id', 'price'];
+    protected $fillable = ['travel_id', 'event_id', 'payer_id', 'price'];
 
     public function event(): BelongsTo
     {

@@ -47,12 +47,13 @@ class PaymentController extends Controller
         $payer = User::where('id', $request->payer_id)->first();
 
         Payment::create([
+            'travel_id' => $request->travel_id,
             'event_id' => $event->id,
             'payer_id' => $payer->id,
             'price' => $request->price,
         ]);
 
-        return redirect()->route('index');
+        return redirect()->back();
     }
 
     /**

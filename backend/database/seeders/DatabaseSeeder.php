@@ -27,6 +27,10 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('12345678'),
         ]);
 
+        DB::table('travels')->insert([
+            'name' => '旅行',
+        ]);
+
         DB::table('events')->insert([
             'name' => 'シャンゴ',
         ]);
@@ -36,24 +40,28 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('payments')->insert([
+            'travel_id' => 1,
             'event_id' => 1,
             'payer_id' => 1,
             'price' => 1000,
         ]);
 
         DB::table('payments')->insert([
+            'travel_id' => 1,
             'event_id' => 2,
             'payer_id' => 2,
             'price' => 2000,
         ]);
 
         DB::table('payments')->insert([
+            'travel_id' => 1,
             'event_id' => 1,
             'payer_id' => 2,
             'price' => 10000,
         ]);
 
         DB::table('payments')->insert([
+            'travel_id' => 1,
             'event_id' => 2,
             'payer_id' => 1,
             'price' => 2000,

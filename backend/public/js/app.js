@@ -1921,9 +1921,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     initialMembers: {
       type: Array,
       "default": function _default() {}
-    },
-    endpoint: {
-      type: String
     }
   },
   data: function data() {
@@ -38462,7 +38459,24 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("p", { staticClass: "ml-2" }, [_vm._v("今日")]),
+      _c("div", { staticClass: "card mb-5" }, [
+        _c(
+          "div",
+          { staticClass: "card-body" },
+          _vm._l(_vm.members, function(member) {
+            return _c(
+              "h5",
+              { key: member.id, staticClass: "card-title center" },
+              [
+                _vm._v(
+                  "\n        " + _vm._s(_vm.judgement(member)) + "\n      "
+                )
+              ]
+            )
+          }),
+          0
+        )
+      ]),
       _vm._v(" "),
       _vm._l(_vm.payments, function(payment) {
         return _c("div", { key: payment.id, staticClass: "card mb-1" }, [
@@ -38523,25 +38537,6 @@ var render = function() {
       _vm._v(" "),
       _c("p", { staticClass: "total-price mb-0" }, [
         _vm._v("平均：" + _vm._s(_vm.avaragePrice.toLocaleString()) + "円")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card" }, [
-        _c(
-          "div",
-          { staticClass: "card-body" },
-          _vm._l(_vm.members, function(member) {
-            return _c(
-              "h5",
-              { key: member.id, staticClass: "card-title center" },
-              [
-                _vm._v(
-                  "\n        " + _vm._s(_vm.judgement(member)) + "\n      "
-                )
-              ]
-            )
-          }),
-          0
-        )
       ])
     ],
     2
