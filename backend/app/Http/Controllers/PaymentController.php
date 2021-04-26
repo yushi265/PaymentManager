@@ -6,6 +6,7 @@ use App\Models\Payment;
 use App\Models\User;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Http\Requests\PaymentRequest;
 
 class PaymentController extends Controller
 {
@@ -41,7 +42,7 @@ class PaymentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PaymentRequest $request)
     {
         $event = Event::firstOrCreate(['name' => $request->title]);
         $payer = User::where('id', $request->payer_id)->first();

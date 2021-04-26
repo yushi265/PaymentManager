@@ -16,16 +16,19 @@
                 <input type="hidden" name="travel_id" value="{{ $travel_id }}">
                 <div class="modal-body">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="title" placeholder="イベント名" required>
+                        <input type="text" class="form-control" name="title" placeholder="イベント名" value="{{ old('title') }}" required>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="price" placeholder="使った金額" required>
+                        <input type="text" class="form-control" name="price" placeholder="使った金額" value="{{ old('price') }}" required>
                     </div>
                     <div class="input-group mb-3">
                         <select class="form-select" name="payer_id" required>
                             <option selected>会計した人</option>
                             @foreach ($members as $member)
-                                <option value="{{ $member->id }}">{{ $member->name }}</option>
+                                <option value="{{ $member->id }}"
+                                    @if (old('payer_id') == $member->id) selected @endif>
+                                        {{ $member->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>

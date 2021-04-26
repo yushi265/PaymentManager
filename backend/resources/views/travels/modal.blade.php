@@ -15,7 +15,7 @@
                 @csrf
                 <div class="modal-body">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="name" placeholder="タイトル" required>
+                        <input type="text" class="form-control" name="name" placeholder="タイトル" value="{{ old('name') }}"required>
                     </div>
                 </div>
                 <div class="modal-footer">

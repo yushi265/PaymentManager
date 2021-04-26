@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\TravelRequest;
 use App\Models\Travel;
 use App\Models\User;
 use App\Models\Payment;
@@ -37,7 +38,7 @@ class TravelController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TravelRequest $request)
     {
         Travel::create([
             'name' => $request->name,

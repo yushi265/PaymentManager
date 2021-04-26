@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container">
+        @include('errors')
 
         @include('payments.modal')
 
