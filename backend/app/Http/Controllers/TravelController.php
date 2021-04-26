@@ -57,7 +57,9 @@ class TravelController extends Controller
     {
         $travel = Travel::where('id', $id)->first();
         $payments = Payment::where('travel_id', $id)->with(['event', 'payer'])->orderBy('created_at', 'desc')->get();
-        $members = User::with(['payments'])->get();
+        $members = User::with(['payments' => function ($query) use ($id) {
+            $query->where('travel_id', $id);
+        }])->get();
 
         return view('travels.show', [
             'travel' => $travel,

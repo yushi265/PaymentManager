@@ -99,10 +99,13 @@ class PaymentController extends Controller
      */
     public function destroy(Payment $payment)
     {
+        $travel_id = $payment->travel_id;
         $payment->delete();
 
         $payments = Payment::with(['event', 'payer'])->orderBy('created_at', 'desc')->get();
-        $members = User::with(['payments'])->get();
+        $members = User::with(['payments' => function($query) use($travel_id) {
+            $query->where('travel_id', $travel_id);
+        }])->get();
 
         return ['payments' => $payments, 'members' => $members];
     }
