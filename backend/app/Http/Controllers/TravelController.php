@@ -87,9 +87,14 @@ class TravelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TravelRequest $request, $id)
     {
-        //
+        $travel = Travel::where('id', $id)->first();
+
+        $travel->name = $request->name;
+        $travel->save();
+
+        return redirect()->back();
     }
 
     /**
