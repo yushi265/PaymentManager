@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card mb-5">
+    <div class="card mb-5" v-if="payments.length > 0">
       <div class="card-body">
         <h5
           class="card-title center"
@@ -34,12 +34,17 @@
         </div>
       </div>
     </div>
-    <p class="total-price mb-0" v-for="member in members" :key="member.id">
-      {{ member.name }}：{{ member.totalPayment.toLocaleString() }}円
-    </p>
-    <p class="total-price mb-0">合計：{{ totalPrice.toLocaleString() }}円</p>
-    <p class="total-price mb-0">平均：{{ avaragePrice.toLocaleString() }}円</p>
-
+    <div v-if="payments.length > 0">
+        <p class="total-price mb-0" v-for="member in members" :key="member.id">
+        {{ member.name }}：{{ member.totalPayment.toLocaleString() }}円
+        </p>
+        <p class="total-price mb-0">合計：{{ totalPrice.toLocaleString() }}円</p>
+        <p class="total-price mb-0">平均：{{ avaragePrice.toLocaleString() }}円</p>
+    </div>
+    <div v-else style="text-align:center;">
+        <br>
+        <p>イベントを追加しましょう！</p>
+    </div>
   </div>
 </template>
 

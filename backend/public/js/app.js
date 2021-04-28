@@ -1911,6 +1911,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -38459,24 +38464,26 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("div", { staticClass: "card mb-5" }, [
-        _c(
-          "div",
-          { staticClass: "card-body" },
-          _vm._l(_vm.members, function(member) {
-            return _c(
-              "h5",
-              { key: member.id, staticClass: "card-title center" },
-              [
-                _vm._v(
-                  "\n        " + _vm._s(_vm.judgement(member)) + "\n      "
+      _vm.payments.length > 0
+        ? _c("div", { staticClass: "card mb-5" }, [
+            _c(
+              "div",
+              { staticClass: "card-body" },
+              _vm._l(_vm.members, function(member) {
+                return _c(
+                  "h5",
+                  { key: member.id, staticClass: "card-title center" },
+                  [
+                    _vm._v(
+                      "\n        " + _vm._s(_vm.judgement(member)) + "\n      "
+                    )
+                  ]
                 )
-              ]
+              }),
+              0
             )
-          }),
-          0
-        )
-      ]),
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _vm._l(_vm.payments, function(payment) {
         return _c("div", { key: payment.id, staticClass: "card mb-1" }, [
@@ -38519,25 +38526,45 @@ var render = function() {
         ])
       }),
       _vm._v(" "),
-      _vm._l(_vm.members, function(member) {
-        return _c("p", { key: member.id, staticClass: "total-price mb-0" }, [
-          _vm._v(
-            "\n    " +
-              _vm._s(member.name) +
-              "：" +
-              _vm._s(member.totalPayment.toLocaleString()) +
-              "円\n  "
+      _vm.payments.length > 0
+        ? _c(
+            "div",
+            [
+              _vm._l(_vm.members, function(member) {
+                return _c(
+                  "p",
+                  { key: member.id, staticClass: "total-price mb-0" },
+                  [
+                    _vm._v(
+                      "\n      " +
+                        _vm._s(member.name) +
+                        "：" +
+                        _vm._s(member.totalPayment.toLocaleString()) +
+                        "円\n      "
+                    )
+                  ]
+                )
+              }),
+              _vm._v(" "),
+              _c("p", { staticClass: "total-price mb-0" }, [
+                _vm._v(
+                  "合計：" + _vm._s(_vm.totalPrice.toLocaleString()) + "円"
+                )
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "total-price mb-0" }, [
+                _vm._v(
+                  "平均：" + _vm._s(_vm.avaragePrice.toLocaleString()) + "円"
+                )
+              ])
+            ],
+            2
           )
-        ])
-      }),
-      _vm._v(" "),
-      _c("p", { staticClass: "total-price mb-0" }, [
-        _vm._v("合計：" + _vm._s(_vm.totalPrice.toLocaleString()) + "円")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "total-price mb-0" }, [
-        _vm._v("平均：" + _vm._s(_vm.avaragePrice.toLocaleString()) + "円")
-      ])
+        : _c("div", { staticStyle: { "text-align": "center" } }, [
+            _c("br"),
+            _vm._v(" "),
+            _c("p", [_vm._v("イベントを追加しましょう！")])
+          ])
     ],
     2
   )
