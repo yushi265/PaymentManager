@@ -1,6 +1,6 @@
 <!-- Button trigger modal -->
 <button type="button" class="btn w-100 mb-3 pt-3 pb-3" data-mdb-toggle="modal" data-mdb-target="#exampleModal" style="background-color:#f11e766e;">
-    追加
+    日程追加
 </button>
 
 <!-- Modal -->

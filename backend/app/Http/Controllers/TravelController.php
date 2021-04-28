@@ -7,6 +7,7 @@ use App\Http\Requests\TravelRequest;
 use App\Models\Travel;
 use App\Models\User;
 use App\Models\Payment;
+use App\Models\Event;
 
 class TravelController extends Controller
 {
@@ -60,12 +61,14 @@ class TravelController extends Controller
         $members = User::with(['payments' => function ($query) use ($id) {
             $query->where('travel_id', $id);
         }])->get();
+        $events_name = Event::orderBy('created_at', 'desc')->get();
 
         return view('travels.show', [
             'travel' => $travel,
             'payments' => $payments,
             'members' => $members,
             'travel_id' => $id,
+            'events_name' => $events_name,
         ]);
     }
 

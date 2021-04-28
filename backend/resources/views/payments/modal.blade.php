@@ -1,10 +1,11 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn w-100 mb-4 pt-3 pb-3" data-mdb-toggle="modal" data-mdb-target="#exampleModal" style="background-color:#f11e766e;">
-    追加
+<button type="button" class="btn w-100 mb-4 pt-3 pb-3" data-mdb-toggle="modal" data-mdb-target="#exampleModal"
+    style="background-color:#f11e766e;">
+    イベント追加
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" style="background-color:#f4f2908a">
             <div class="modal-header">
@@ -16,18 +17,24 @@
                 <input type="hidden" name="travel_id" value="{{ $travel_id }}">
                 <div class="modal-body">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="title" placeholder="イベント名" value="{{ old('title') }}" required>
+                        <input type="text" class="form-control" name="title" placeholder="イベント名"
+                            value="{{ old('title') }}" autocomplete="on" list="event_name" required>
+                        <datalist id="event_name">
+                            @foreach ($events_name as $event)
+                            <option value="{{$event->name}}">
+                            @endforeach
+                        </datalist>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="price" placeholder="使った金額" value="{{ old('price') }}" required>
+                        <input type="text" class="form-control" name="price" placeholder="使った金額"
+                            value="{{ old('price') }}" required>
                     </div>
                     <div class="input-group mb-3">
                         <select class="form-select" name="payer_id" required>
                             <option selected>会計した人</option>
                             @foreach ($members as $member)
-                                <option value="{{ $member->id }}"
-                                    @if (old('payer_id') == $member->id) selected @endif>
-                                        {{ $member->name }}
+                                <option value="{{ $member->id }}" @if (old('payer_id') == $member->id) selected @endif>
+                                    {{ $member->name }}
                                 </option>
                             @endforeach
                         </select>
